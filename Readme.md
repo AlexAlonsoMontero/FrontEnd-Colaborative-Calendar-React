@@ -7,6 +7,7 @@ Esta aplicacion será un calendario donde se podrán activar eventos colaborativ
 
 ## Tecnologías.
 * ReactJS
+    * ReactRouter 6
 * NodeJS
     * Express
 * MongoDB
