@@ -16,15 +16,52 @@ export const useAuthStore = () => {
             const { data } = await calendarApi.post('auth', { email, password });
             localStorage.setItem('token', data.token);
             localStorage.setItem('token-init-data', new Date().getTime());
-            dispathc ( onLogin({name: data.name, uid: data.uid}));
+            dispathc(onLogin({ name: data.name, uid: data.uid }));
 
 
         } catch (error) {
-            dispathc( onLogout('Credenciales incorrectas'));
+            dispathc(onLogout('Credenciales incorrectas'));
             setTimeout(() => {
                 dispathc(clearErrorMessage())
             }, 10);
         }
+    }
+
+    const startRegister = async ({ name, email, password }) => {
+        dispathc(onChecking());
+        try {
+            const { data } = await calendarApi.post('auth/new', { name, email, password });
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('token-init-data', new Date().getTime());
+            dispathc(onLogin(data.name, data.uid))
+
+
+        } catch (error) {
+            dispathc(onLogout(error.response.data?.msg || 'Datos de registro incorrectos, o duplicados'));
+            setTimeout(() => {
+                dispathc(clearErrorMessage())
+            }, 10);
+        }
+    }
+
+    const checkAuthToken = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) return dispathc(onLogout());
+        try {
+            const { data } = await calendarApi.get('auth/renew');
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('token-init-data', new Date().getTime());
+            localStorage.setItem('token', data.token);
+            dispathc(onLogin(data.name, data.uid));
+        } catch (error) {
+            localStorage.clear();
+            dispathc(onLogout());
+        }
+    }
+
+    const startLogout = () => {
+        localStorage.clear();
+        dispathc(onLogout());
     }
 
     return {
@@ -34,6 +71,9 @@ export const useAuthStore = () => {
         errorMessage,
         // Métodos
         startLogin,
+        startRegister,
+        checkAuthToken,
+        startLogout,
     }
 }
 

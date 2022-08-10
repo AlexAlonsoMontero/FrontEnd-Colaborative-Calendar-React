@@ -17,7 +17,7 @@ const registerFormFields = {
 
 export const LoginPage = () => {
 
-  const { startLogin, errorMessage } = useAuthStore();
+  const { startLogin,startRegister, errorMessage } = useAuthStore();
 
   const { loginEmail, loginPassword, onInputChange: onLoingInputChange } = useForm( loginFormFields );
   const { registerName, registerEmail, registerPassword, registerPassword2, onInputChange: onRegisterInputChange } = useForm( registerFormFields)
@@ -30,9 +30,12 @@ export const LoginPage = () => {
 
   const registeSubmit = (event) =>{
     event.preventDefault();
-    console.log('====================================');
-    console.log({ registerName, registerEmail, registerPassword, registerPassword2 });
-    console.log('====================================');
+    if(registerPassword !== registerPassword2){
+      Swal.fire('Los passwords deben coincidir', 'error');
+      return;
+    }
+    console.log({ registerName, registerEmail, registerPassword, registerPassword2 })
+    startRegister({name: registerName, email: registerEmail, password: registerPassword})
   }
 
   useEffect(() => {
@@ -42,7 +45,7 @@ export const LoginPage = () => {
 
   }, [errorMessage])
   
-
+  
   return (
     <div className="container login-container">
       <div className="row">
