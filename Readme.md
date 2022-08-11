@@ -1,4 +1,3 @@
-__Aplicación en desarrollo__
 # Calendario colaborativo (Front-End)
 
 
