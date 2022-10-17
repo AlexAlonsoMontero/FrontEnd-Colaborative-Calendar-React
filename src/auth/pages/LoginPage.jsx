@@ -34,7 +34,6 @@ export const LoginPage = () => {
       Swal.fire('Los passwords deben coincidir', 'error');
       return;
     }
-    console.log({ registerName, registerEmail, registerPassword, registerPassword2 })
     startRegister({name: registerName, email: registerEmail, password: registerPassword})
   }
 

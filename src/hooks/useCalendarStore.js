@@ -29,7 +29,6 @@ export const useCalendarStore = () => {
             dispatch(onAddNewEvent({ ...calendarEvent, id: data.evento.id, user }))
 
         } catch (error) {
-            console.log(error)
             Swal.fire('Error al guardar', error.response.data.msg, 'error')
         }
 
@@ -42,7 +41,6 @@ export const useCalendarStore = () => {
             dispatch(onDeleteEvent());
 
         } catch (error) {
-            console.log(error)
             Swal.fire('Error al borrar', error.response.data.msg ,'error')
         }
 
@@ -56,7 +54,6 @@ export const useCalendarStore = () => {
 
         } catch (error) {
             console.log('Error en la carga de eventos');
-            console.log(error);
         }
     }
 
